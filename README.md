@@ -1,0 +1,2 @@
+# BlogGram
+A blogging platform
