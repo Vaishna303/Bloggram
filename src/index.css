@@ -1,0 +1,4 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components{input{@apply bg-transparent px-2 w-full border-b-[1px] text-[1rem] text-red-500 py-2 font-medium;}}

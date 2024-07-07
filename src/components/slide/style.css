@@ -1,0 +1,80 @@
+.swiper {
+  width: 100%;
+  margin: 0 auto;
+  height: 80vh;
+  background: #000;
+}
+
+@media screen and (max-width: 1080px) {
+  .swiper {
+    height: 70vh;
+  }
+}
+
+.swiper-slide {
+  font-size: 18px;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px 60px;
+  
+  
+}
+
+.text {
+  margin-top: 20rem; 
+  /* display:flex;
+  justify-content: space-between;
+  flex-direction: column;
+  font-size: 1rem; */
+}
+
+.parallax-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-image: url("https://media.istockphoto.com/id/1501883005/photo/dark-blue-violet-purple-magenta-pink-burgundy-red-abstract-background-color-gradient-wave.webp?b=1&s=170667a&w=0&k=20&c=J16Bl-da39AY03fQpvdKmq1jgv5kbcOfXkUH28Hp4QU=");
+  /* background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT41SvJp4H4rlvTGHgR73QqJmRfaJ2bN6bazg&s"); */
+  width: 130%;
+  height: 100%;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center;
+}
+
+.swiper-slide .title {
+  font-size: 50px;
+  font-weight: 500;
+  font-family: cursive;
+}
+
+.swiper-slide .subtitle {
+  font-size: 25px;
+  font-family: cursive;
+}
+
+.swiper-slide .text {
+  font-size: 14px;
+  max-width: 400px;
+  line-height: 1.3;
+  
+}
+
+
+/* .cl
+{
+  https://4kwallpapers.com/images/walls/packs/103.jpg
+
+  /images/coding/react.jpg"
+  
+  text-align: right;
+  width:50%;
+  
+} */
+
+
+/* @media screen and (max-width: 780px) {
+  .cl {
+    font-size: 2rem;
+  }
+} */
