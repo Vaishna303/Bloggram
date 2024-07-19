@@ -101,7 +101,7 @@ app.get('/api/getAllBlogs', async (req, res) => {
   }
 });
 
-app.post('/api/signup', (req, res) => {
+app.post('/api/signup', cors(corsOptions), (req, res) => {
   console.log('Received request:', req.body);
   const { username, mail, phone, password, question, answer } = req.body;
   const newName = new NameModel({ username, mail, phone, password, question, answer });
