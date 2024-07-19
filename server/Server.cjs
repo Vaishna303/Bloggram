@@ -9,9 +9,15 @@ const path = require('path');
 
 const app = express();
 
-app.use(cors({
-  origin:'https://bloggram-a-blogging-platform.netlify.app/'
-}));
+const corsOptions = {
+  origin: 'https://bloggram-a-blogging-platform.netlify.app',
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+
+app.use(cors(corsOptions));
+// app.use(cors({
+//   origin:'https://bloggram-a-blogging-platform.netlify.app/'
+// }));
 
 const PORT = process.env.PORT || 3002;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
