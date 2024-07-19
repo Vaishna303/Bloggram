@@ -5,13 +5,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
-const cors = require('cors');
-
-// app.use(cors({
-//   origin:'https://bloggram-a-blogging-platform.netlify.app/'
-// }));
+ const cors = require('cors');
 
 const app = express();
+
+app.use(cors({
+  origin:'https://bloggram-a-blogging-platform.netlify.app/'
+}));
+
 const PORT = process.env.PORT || 3002;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
 
