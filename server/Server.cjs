@@ -14,10 +14,24 @@ const corsOptions = {
   optionsSuccessStatus: 200 // For legacy browser support
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 // app.use(cors({
 //   origin:'https://bloggram-a-blogging-platform.netlify.app/'
 // }));
+
+
+// Update CORS configuration
+const allowedOrigins = ['http://localhost:5173', 'https://bloggram-a-blogging-platform.netlify.app'];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 
 const PORT = process.env.PORT || 3002;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
