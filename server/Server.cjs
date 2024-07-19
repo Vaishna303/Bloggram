@@ -4,12 +4,17 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const PORT = 3002;
+//const PORT = 3002;
 app.use(cors());
 app.use(bodyParser.json());
 const multer = require('multer');
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const PORT = process.env.PORT || 3002;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
+
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { cb(null, 'uploads/');},
