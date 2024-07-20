@@ -83,30 +83,54 @@ const NameModel = mongoose.model('User', {
   createdAt: { type: Date, default: Date.now }
 });
 
+// app.get('/api/getAllBlogs', async (req, res) => {
+//   try {
+//     const allUsers = await NameModel.find({});
+//     const formattedBlogs = allUsers.reduce((acc, user) => {
+//       const userBlogs = user.posts.map(blog => {
+//         return {
+//           author: user.username,
+//           img: blog.img,
+//           title: blog.title,
+//           subtitle: blog.subtitle,
+//           content: blog.content,
+//           hashtag: blog.hashtag,
+//           likes: blog.likes,
+//           shares: blog.shares,
+//           comments: blog.comments,
+//           createdAt: blog.createdAt
+//         };
+//       });
+//       return acc.concat(userBlogs);
+//     }, []);
+//     res.status(200).json(formattedBlogs);
+//   } catch (error) {
+//     console.error('Error retrieving blogs from MongoDB:', error);
+//     res.status(500).send('Internal Server Error\n');
+//   }
+// });
 app.get('/api/getAllBlogs', async (req, res) => {
   try {
     const allUsers = await NameModel.find({});
     const formattedBlogs = allUsers.reduce((acc, user) => {
-      const userBlogs = user.posts.map(blog => {
-        return {
-          author: user.username,
-          img: blog.img,
-          title: blog.title,
-          subtitle: blog.subtitle,
-          content: blog.content,
-          hashtag: blog.hashtag,
-          likes: blog.likes,
-          shares: blog.shares,
-          comments: blog.comments,
-          createdAt: blog.createdAt
-        };
-      });
+      const userBlogs = user.posts.map(blog => ({
+        author: user.username,
+        img: blog.img,
+        title: blog.title,
+        subtitle: blog.subtitle,
+        content: blog.content,
+        hashtag: blog.hashtag,
+        likes: blog.likes,
+        shares: blog.shares,
+        comments: blog.comments,
+        createdAt: blog.createdAt
+      }));
       return acc.concat(userBlogs);
     }, []);
     res.status(200).json(formattedBlogs);
   } catch (error) {
     console.error('Error retrieving blogs from MongoDB:', error);
-    res.status(500).send('Internal Server Error\n');
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
 
