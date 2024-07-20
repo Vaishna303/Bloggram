@@ -1,24 +1,21 @@
 require('dotenv').config();
+
 const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
- const cors = require('cors');
+const cors = require('cors');
 
+//username - vaishna303
+//password - vaishu@303
 const app = express();
 
 const corsOptions = {
   origin: 'https://bloggram-a-blogging-platform.netlify.app',
   optionsSuccessStatus: 200 // For legacy browser support
 };
-
-// app.use(cors(corsOptions));
-// app.use(cors({
-//   origin:'https://bloggram-a-blogging-platform.netlify.app/'
-// }));
-
 
 // Update CORS configuration
 const allowedOrigins = ['http://localhost:5173', 'https://bloggram-a-blogging-platform.netlify.app'];
@@ -34,9 +31,9 @@ app.use(cors({
 
 
 const PORT = process.env.PORT || 3002;
+//const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
-
-app.use(cors());
+//app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -334,8 +331,6 @@ app.get('/api/getUserBlogs/:userId', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
-
 
 app.post('/api/likeBlog/:author/:createdAt', async (req, res) => {
   try {
