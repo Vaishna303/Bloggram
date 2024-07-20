@@ -22,7 +22,7 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/api/getAllBlogs");
+        const response = await axios.get("/api/getAllBlogs");
         //const sortedBlogs = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         const sortedBlogs = response.data.sort((a, b) => b.likes - a.likes);
         
