@@ -11,7 +11,6 @@ const cors = require('cors');
 //username - vaishna303
 //password - vaishu@303
 const app = express();
-
 const corsOptions = {
   origin: 'https://bloggram-a-blogging-platform.netlify.app',
   optionsSuccessStatus: 200
