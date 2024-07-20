@@ -25,7 +25,7 @@ const App = () => {
      <UserContext.Provider value={{ user, setUser }}> {/* Providing user and setUser via context */}
       <Navbar />
       <Routes>
-        <Route path="/" element={<Blogs />} />
+        <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
         
         <Route path="/blog/:author/:createdAt" element={<BlogDetails />} />
