@@ -6,11 +6,9 @@ import FooterBtn from "./FooterBtn";
 import Icon from "./Icon";
 const Footer = () => {
     return (
-        <div className="w-full flex items-center justify-between flex-col gap-5 px-2 py-2 border-2">
+        <div className="w-full flex items-center justify-between flex-col gap-5 px-2 py-2 border-t-2">
             <h3 className="text-2xl font-bold mt-2 underline"> BlogGram</h3>
             <div className="flex flex-wrap gap-7 items-center justify-center  m-5 ">
-
-
                 <Icon icon={<FaFacebookF />} color={"text-slate-50"} bgColor={"bg-indigo-700"} />
                 <Icon icon={<FaXTwitter />} color={"text-slate-50"} bgColor={"bg-indigo-700"} />
                 <Icon icon={<AiFillInstagram />} color={"text-slate-50"} bgColor={"bg-indigo-700"} />

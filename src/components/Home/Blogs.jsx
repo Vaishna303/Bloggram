@@ -12,7 +12,7 @@ const Tag = ({ text, color, bgColor, onClick }) => {
 };
 
 const Blogs = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [blogs, setBlogs] = useState([]);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -23,9 +23,8 @@ const Blogs = () => {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get("http://localhost:3002/api/getAllBlogs");
-        //const sortedBlogs = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        const sortedBlogs = response.data.sort((a, b) => b.likes - a.likes);
-        
+        const sortedBlogs = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        // const sortedBlogs = response.data.sort((a, b) => b.likes - a.likes);
         setBlogs(sortedBlogs);
           
         const allTags = response.data.reduce((acc, blog) => {
@@ -55,10 +54,6 @@ const Blogs = () => {
 
   const handleClearFilters = () => {
     setSelectedTags([]);
-  };
-
-  const handleSearchTextChange = event => {
-    setSearchText(event.target.value);
   };
 
   const handleClickBlog = () => {
@@ -98,12 +93,11 @@ const Blogs = () => {
   return (
     <div className="mt-4 w-full mx-auto py-2 overflow-y-auto">
       <div className="flex justify-between items-center mb-3 flex-col">
-        <input
-          type="text"
+        <input type="text"
           className="mt-5 mb-5 px-4 py-2 max-w-xl rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
           placeholder="Search blogs..."
           value={searchText}
-          onChange={handleSearchTextChange}
+          onChange={(e)=>setSearchText(e.target.value)}
         />
         <div className="flex flex-wrap mx-10 sm:max-w-none bg-zinc-500 rounded-2xl overflow-y-auto justify-center" style={{ maxHeight: "80px"}}>
  
@@ -136,35 +130,15 @@ const Blogs = () => {
       </div>
       <ul className="w-full grid grid-cols-1 px-5 py-2 text-slate-300 font-medium gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 mb-8">
         {filteredBlogs.map((blog, index) => (
-          <li
-            className="hover:border-2 hover:border-white rounded-2xl border-4 border-neutral-800 p-3"
-            key={index}
-          >
-            <Link 
-              to={user ? `/blog/${blog.author}/${blog.createdAt}` : '#'}
-              onClick={handleClickBlog}
-            >
-              <p className="text-slate-300 h-7">{blog.author}</p>
-              <p className="text-slate-300 h-7">{new Date(blog.createdAt).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}</p>
-              <img
-                className="px-2 py-2 rounded-3xl"
-                style={{ height: "300px", width: "500px" }}
-                src={`http://localhost:3002/${blog.img}`}
-                alt="Uploaded"
-              />
+          <li key={index} className="hover:border-2 hover:border-white rounded-2xl border-4 border-neutral-800 p-3">
+            <Link to={user ? `/blog/${blog.author}/${blog.createdAt}` : '#'} onClick={handleClickBlog}>
+              <p className="author text-slate-300 h-7">{blog.author}</p>
+              <p className="date text-slate-300 h-7">{new Date(blog.createdAt).toLocaleDateString('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</p>
+              <img className="px-2 py-2 rounded-3xl" style={{ height: "300px", width: "500px" }} src={`http://localhost:3002/${blog.img}`} alt="Uploaded"/>
               <div className="w-full px-4 py-2 flex flex-col gap-3">
-                <h3 className="text-xl font-bold text-slate-50 min-h-6">
-                  {blog.title}
-                </h3>
-                <p className="text-slate-500 font-medium min-h-4">
-                  {blog.subtitle}
-                </p>
-                <div className="w-full flex gap-0 mt-0 min-h-6">
+                <h3 className="title text-xl font-bold text-slate-50 min-h-6">{blog.title}</h3>
+                <p className="subtitle text-slate-500 font-medium min-h-4">{blog.subtitle}</p>
+                <div className="tags w-full flex gap-0 mt-0 min-h-6">
                   {blog.hashtag.map((tag, index) => (
                     <Tag
                       key={index}

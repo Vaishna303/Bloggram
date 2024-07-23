@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Blogs from "./components/Home/Blogs";
 import Footer from "./components/ui/Footer";
@@ -27,18 +27,15 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
-        
         <Route path="/blog/:author/:createdAt" element={<BlogDetails />} />
         <Route path="/profile/addBlog/:author" element={<Add />} />
-        
         <Route path="/signup" element={<SignUp />} />
+        
         <Route path="/signin" element={<SignIn/>} />
         
         <Route path="/signin/forgotpwd" element = {<Forgotpwd />} />
-        
         <Route path="/profile" element={<Prof user={user}/>} />
         <Route path="/profile/:author/:createdAt" element={<DisplayAblog />} />
-        
         <Route path="/profile/EditBlog/:author/:createdAt" element={<EditBlogs />} />
         <Route path="/profile/editProfile" element={<EditProfile setUser={setUser} />} />
         <Route path="*" element={<NotFound />} />

@@ -4,19 +4,27 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const PORT = 3002;
+//const PORT = 3002;
 app.use(cors());
 app.use(bodyParser.json());
 const multer = require('multer');
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
+const PORT = process.env.PORT || 3002;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { cb(null, 'uploads/');},
   filename: function (req, file, cb) { cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));}
 });
 const upload = multer({ storage: storage });
-mongoose.connect('mongodb://127.0.0.1:27017/Bloggram', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//mongoose.connect('mongodb://127.0.0.1:27017/Bloggram', { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 const db = mongoose.connection;
 db.on('connected', () => console.log('connected'));
@@ -302,8 +310,6 @@ app.get('/api/getUserBlogs/:userId', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
-
 
 app.post('/api/likeBlog/:author/:createdAt', async (req, res) => {
   try {
