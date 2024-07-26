@@ -15,8 +15,11 @@ const Navbar = () => {
                 {<>
                  <li key={'/'} className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={'/'}> Home </Link>   </li>
                  <li key={'/blogs'} className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={'/blogs'}> Blogs </Link>   </li>
-                 <li key={'/signin'} className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={`/signin`}> Sign In </Link>   </li>
-                 </>
+                 {!user ?
+                 <li className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={`/signin`}> Sign In </Link></li>
+                :
+                <li className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={`/signin`}> SignedIn </Link></li>
+                }</>
                 }
             </ul>
             
