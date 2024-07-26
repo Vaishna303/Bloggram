@@ -11,9 +11,9 @@ const multer = require('multer');
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-const PORT = process.env.PORT || 3002;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
+const PORT = 3002;
+//const PORT = process.env.PORT || 3002;
+//const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
 
 
 const storage = multer.diskStorage({
@@ -21,9 +21,9 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) { cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));}
 });
 const upload = multer({ storage: storage });
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-//mongoose.connect('mongodb://127.0.0.1:27017/Bloggram', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1:27017/Bloggram', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 const db = mongoose.connection;
