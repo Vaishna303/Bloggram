@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 //const cors = require('cors');
 const cors = require('cors');
 app.use(cors({
-  origin: '*', // Allow all origins
+  origin: 'https://bloggram-duh7.onrender.com', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
   credentials: true, // Allow cookies
 }));
@@ -409,5 +409,4 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`\nServer is running on http://localhost:${PORT} \n`);
-  
 });
