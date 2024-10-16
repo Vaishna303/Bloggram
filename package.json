@@ -11,7 +11,9 @@
     "start" : "node server.cjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "vite preview": "vite preview",
-    "postinstall" : "npx vite build"
+    "postinstall" : "npx vite build",
+
+    "prepare" : "npm install"  
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
