@@ -10,7 +10,8 @@
     "build": "vite build",
     "start" : "node server.cjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "vite preview": "vite preview",
+    "postinstall" : "npx vite build"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
