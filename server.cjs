@@ -9,9 +9,12 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use(express.static(path.join(__dirname, 'dist'))); // Serve the 'dist' folder where Vite builds files
 
 
 const storage = multer.diskStorage({
@@ -20,7 +23,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI);
@@ -392,6 +395,10 @@ app.post('/api/addComment/:author/:createdAt', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html')); // Serve index.html for all other routes
+  });
 
 app.listen(PORT, () => {
   console.log(`\nServer is running on http://localhost:${PORT} \n`);
