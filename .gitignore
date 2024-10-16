@@ -1,5 +1,3 @@
-# only one like per user
-# add follow button
-# personalized dashboard(manage the blogs, display followers, the activity like in github)
-# add administrator login (to manage all the blogs, can have authority to delete any blog or block any user due to security concerns)
-# deploy the project
+.env
+uploads/
+node_modules/
