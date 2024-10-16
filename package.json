@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.cjs --quiet",
     "client": "vite",
-    "build": "cho 'Running vite build...' && npx vite build",
+    "build": "echo 'Running vite build...' && npx vite build",
     "start" : "node server.cjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "vite preview": "vite preview"
