@@ -11,8 +11,6 @@
     "start" : "node server.cjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "vite preview": "vite preview",
-    "postinstall" : "npm vite build",
-
     "prepare" : "npm install"  
   },
   "dependencies": {
