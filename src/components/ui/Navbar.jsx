@@ -24,7 +24,7 @@ const Navbar = () => {
             </ul>
             
             <div className="flex gap-9" title="Profile">   
-                <Link to="/profile"><FaUserLarge/></Link>
+                <Link to="/profile" className="text-white text-3xl transition-transform duration-300 transform hover:scale-110"><FaUserLarge/></Link>
             </div>
         </nav>
     )

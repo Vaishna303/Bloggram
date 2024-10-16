@@ -1,31 +1,60 @@
+/*This server.cjs file is a comprehensive backend setup for a blogging platform, handling user registration, 
+authentication, blog post management (including CRUD operations), and interaction with MongoDB for data storage. 
+It also supports file uploads (e.g., blog images) and includes robust error handling to manage different scenarios 
+like missing users, posts, or database connection issues.
+*/
+
 const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
+
+//Middleware for parsing incoming request bodies in JSON format.
 const bodyParser = require('body-parser');
+
+//Middleware to allow cross-origin resource sharing, making the API accessible from different domains.
 const cors = require('cors');
-const app = express();
-//const PORT = 3002;
-app.use(cors());
-app.use(bodyParser.json());
+
+//Middleware for handling multipart/form-data, used for file uploads.
 const multer = require('multer');
+
+//A utility module for working with file and directory paths.
 const path = require('path');
+
+//Initialize the Express App:
+//Creates an Express application that will be used to define middleware and routes.
+const app = express();
+
+
+
+
+//////--------------Middleware SetUp------------------------------------
+
+//Allows cross-origin requests to be made to the server from different domains.
+app.use(cors());
+//Parses incoming requests with JSON payloads
+app.use(bodyParser.json());
+//Serves static files (like images) from the uploads directory.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const PORT = 3002;
-//const PORT = process.env.PORT || 3002;
-//const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
 
-
+//////-------------Multer Storage Configuration------------------------
+//diskStorage: Configures where and how files uploaded via Multer are stored, setting the destination to the uploads/ folder and generating a unique filename for each file.
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { cb(null, 'uploads/');},
   filename: function (req, file, cb) { cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));}
 });
 const upload = multer({ storage: storage });
 
+/////--------------PORT & Database setup-------------------------------
+const PORT = 3002;
+//const PORT = process.env.PORT || 3002;
+//const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Bloggram';
 //mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect('mongodb://127.0.0.1:27017/Bloggram', { useNewUrlParser: true, useUnifiedTopology: true });
 
+//mongoose.connect('mongodb+srv://Vaishnavi:<mcs167>@cluster0.cdps1.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
 
+////--------------Database Connection Events---------------------------
 const db = mongoose.connection;
 db.on('connected', () => console.log('connected'));
 db.on('open', () => console.log('open'));
@@ -35,6 +64,13 @@ db.on('disconnecting', () => console.log('disconnecting'));
 db.on('close', () => console.log('close'));
 db.on('error', (err) => { console.error('MongoDB connection error:', err); });
 
+
+///////-----------Mongoose Schema Definitions--------------------------
+/*
+CommentSchema: Defines the structure of a comment, including the text, author, and timestamp.
+BlogSchema: Defines the structure of a blog post, including an image, title, subtitle, content, hashtags, likes, shares, comments, and timestamp.
+NameModel: Represents a user, including their personal information and an array of blog posts.
+*/
 const CommentSchema = new mongoose.Schema({
   text: String,
   by:String,
@@ -64,6 +100,7 @@ const NameModel = mongoose.model('User', {
   createdAt: { type: Date, default: Date.now }
 });
 
+//Get All Blogs
 app.get('/api/getAllBlogs', async (req, res) => {
   try {
     const allUsers = await NameModel.find({});
@@ -90,7 +127,7 @@ app.get('/api/getAllBlogs', async (req, res) => {
     res.status(500).send('Internal Server Error\n');
   }
 });
-
+//User SignUp
 app.post('/api/signup', (req, res) => {
   console.log('Received request:', req.body);
   const { username, mail, phone, password, question, answer } = req.body;
@@ -105,7 +142,7 @@ app.post('/api/signup', (req, res) => {
       res.status(500).send('Internal Server Error\n');
     });
 });
-
+//User SignIn
 app.post('/api/signIn', async (req, res) => {
   try {
     const { mail, password } = req.body;
@@ -121,7 +158,7 @@ app.post('/api/signIn', async (req, res) => {
     res.status(500).send('Internal Server Error\n');
   }
 });
-
+//Add Blog
 app.post('/api/addBlog', upload.single('img'), async (req, res) => {
   try {
     const { author, title, subtitle, hashtag, content } = req.body;
@@ -144,7 +181,7 @@ app.post('/api/addBlog', upload.single('img'), async (req, res) => {
     res.status(500).send('Internal Server Error\n');
   }
 });
-
+//Edit Blog
 app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, res) => {
   try {
     const { author, createdAt } = req.params;
@@ -179,7 +216,7 @@ app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, re
     res.status(500).send('Internal Server Error');
   }
 });
-
+//Delete Blog
 app.delete('/api/deleteBlog/:username/:createdAt', async (req, res) => {
   try {
     const { username, createdAt } = req.params;
@@ -218,7 +255,7 @@ app.delete('/api/deleteBlog/:username/:createdAt', async (req, res) => {
     res.status(500).json({ message: 'Backend- Internal server error' });
   }
 });
-
+//Get Specific Blog
 app.get('/api/getBlog/:author/:createdAt', async (req, res) => {
   try {
     const { author, createdAt } = req.params;
@@ -247,6 +284,21 @@ app.get('/api/getBlog/:author', async (req, res) => {
   }
 });
 
+//Get all blogs of a specific blogger
+app.get('/api/getUserBlogs/:userId', async (req, res) => {
+  try {
+    const userBlogs = await NameModel.findOne({username : req.params.userId});
+    if (!userBlogs) {
+      console.log("Not found")
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(userBlogs.posts);
+  } catch (error) {
+    console.error('Error retrieving user blogs:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 app.get('/api/getUserDetails/:username', async (req, res) => {
   try {
     const { username } = req.params;
@@ -261,7 +313,7 @@ app.get('/api/getUserDetails/:username', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
+//Get user details using mail
 app.get('/api/getUserDetails', async (req, res) => {
   try {
     const { mail } = req.query;
@@ -277,7 +329,7 @@ app.get('/api/getUserDetails', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
+//Update User Details
 app.put('/api/updateUserDetails/:author', async (req, res) => {
   try {
     const { author } = req.params;
@@ -296,21 +348,7 @@ app.put('/api/updateUserDetails/:author', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-app.get('/api/getUserBlogs/:userId', async (req, res) => {
-  try {
-    const userBlogs = await NameModel.findOne({username : req.params.userId});
-    if (!userBlogs) {
-      console.log("Not found")
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json(userBlogs.posts);
-  } catch (error) {
-    console.error('Error retrieving user blogs:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
-
+//Like a blog
 app.post('/api/likeBlog/:author/:createdAt', async (req, res) => {
   try {
     const { author, createdAt } = req.params;
@@ -335,7 +373,7 @@ app.post('/api/likeBlog/:author/:createdAt', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
+//Edit Profile
 app.get('/api/:author/EditProfile', async (req, res) => {
   try {
     const { username, mail, phone, password } = req.params;
@@ -349,7 +387,7 @@ app.get('/api/:author/EditProfile', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
+//Share a blog
 app.post('/api/shareBlog/:author/:createdAt', async (req, res) => {
   try {
     const { author, createdAt } = req.params;
@@ -371,7 +409,7 @@ app.post('/api/shareBlog/:author/:createdAt', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
+//Add comment to a blog
 app.post('/api/addComment/:author/:createdAt', async (req, res) => {
   try {
     const nm = "REAH";
