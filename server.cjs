@@ -3,12 +3,19 @@ require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
+const app = express();
 
 const bodyParser = require('body-parser');
+//const cors = require('cors');
 const cors = require('cors');
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  credentials: true, // Allow cookies
+}));
+
 const multer = require('multer');
 const path = require('path');
-const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
