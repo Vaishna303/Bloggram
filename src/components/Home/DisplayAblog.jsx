@@ -14,10 +14,12 @@ const DisplayAblog = () => {
     const [blog, setBlog] = useState(null);
     // const [comment, setComment] = useState('');
     // const [comments, setComments] = useState([]);
+    const url = "https://bloggram-duh7.onrender.com";
+    
     useEffect(() => {
         const fetchBlogDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3002/api/getBlog/${user.username}/${createdAt}`);
+                const response = await axios.get(`${url}/api/getBlog/${user.username}/${createdAt}`);
                 setBlog(response.data);
             } catch (error) {
                 console.error('Error fetching blog details:', error);
@@ -47,7 +49,7 @@ const DisplayAblog = () => {
                     month: 'long',
                     day: 'numeric'
                   })}</p>
-                    <img className="rounded-lg shadow-lg mb-4" style={{ height: '400px', width: '600px' }} src={`http://localhost:3002/${blog.img}`} alt="Uploaded" />
+                    <img className="rounded-lg shadow-lg mb-4" style={{ height: '400px', width: '600px' }} src={`url/${blog.img}`} alt="Uploaded" />
                     <div className="flex gap-0 mt-0 min-h-6">
                         {blog.hashtag.map((tag, index) => (
                             <Tag

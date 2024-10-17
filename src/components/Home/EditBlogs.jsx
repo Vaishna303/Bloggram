@@ -21,6 +21,9 @@ const EditBlogs = () => {
     const [BLOG, setBlog] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false); // Track success state
 
+    const url = "https://bloggram-duh7.onrender.com";
+    
+
     const fileInputRef = useRef(null);
 
     
@@ -42,7 +45,7 @@ const EditBlogs = () => {
     useEffect(() => {
         const fetchBlogDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3002/api/getBlog/${user.username}/${createdAt}`);
+                const response = await axios.get(`${url}/api/getBlog/${user.username}/${createdAt}`);
                 const blogData = response.data;
                 setBlog(response.data);
                 setTitle(blogData.title);
@@ -61,7 +64,7 @@ const EditBlogs = () => {
 
     const reset = async () => {
         try {
-            const response = await axios.get(`http://localhost:3002/api/getBlog/${user.username}/${createdAt}`);
+            const response = await axios.get(`${url}/api/getBlog/${user.username}/${createdAt}`);
             const blogData = response.data;
             setBlog(response.data);
             setTitle(blogData.title);
@@ -121,7 +124,7 @@ const EditBlogs = () => {
                 formData.append('img', BLOG.img);
             }
 
-            await axios.put(`http://localhost:3002/api/editBlog/${user.username}/${BLOG.createdAt}`, formData, {
+            await axios.put(`${url}/api/editBlog/${user.username}/${BLOG.createdAt}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

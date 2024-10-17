@@ -13,6 +13,9 @@ const Forgotpwd = ()=>
     const [finalanswer, setfinalanswer] = useState('');
     const [msg, setmsg] = useState('');
 
+    const url = "https://bloggram-duh7.onrender.com";
+    
+
     const [is, setis] = useState(true);
      const getQuestion = async ()=>{
         try{  
@@ -21,7 +24,7 @@ const Forgotpwd = ()=>
             return;
           }
         
-            const response = await axios.get(`http://localhost:3002/api/getUserDetails`, {params : {mail}});
+            const response = await axios.get(`${url}/api/getUserDetails`, {params : {mail}});
             
             setUser(response.data);
             console.log('USR = '+response.data.username);

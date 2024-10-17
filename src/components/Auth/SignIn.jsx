@@ -10,13 +10,16 @@ const SignIn = () => {
   const [signInSuccess, setSignInSuccess] = useState(false);
   const [msg, setmsg]=useState('');
 
+  const url = "https://bloggram-duh7.onrender.com";
+    
+  
   const handleOnSubmit = async () => {
     try {
       if (!mail || !password) {
         setmsg('Please make sure all fields are entered');
         return;
       }
-      const response = await axios.post('http://localhost:3002/api/signIn', { mail, password });
+      const response = await axios.post(`${url}/api/signIn`, { mail, password });
       if (response.status === 200) {
         setUser(response.data.user);
         setSignInSuccess(true);
