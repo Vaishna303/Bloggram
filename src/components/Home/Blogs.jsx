@@ -22,6 +22,7 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
+        console.log(process.env.PORT);
         const response = await axios.get("https://bloggram-duh7.onrender.com/api/getAllBlogs");
         const sortedBlogs = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         // const sortedBlogs = response.data.sort((a, b) => b.likes - a.likes);
@@ -134,7 +135,7 @@ const Blogs = () => {
             <Link to={user ? `/blog/${blog.author}/${blog.createdAt}` : '#'} onClick={handleClickBlog}>
               <p className="author text-slate-300 h-7">{blog.author}</p>
               <p className="date text-slate-300 h-7">{new Date(blog.createdAt).toLocaleDateString('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</p>
-              <img className="px-2 py-2 rounded-3xl" style={{ height: "300px", width: "500px" }} src={`http://localhost:3002/${blog.img}`} alt="Uploaded"/>
+              <img className="px-2 py-2 rounded-3xl" style={{ height: "300px", width: "500px" }} src={`https://bloggram-duh7.onrender.com/${blog.img}`} alt="Uploaded"/>
               <div className="w-full px-4 py-2 flex flex-col gap-3">
                 <h3 className="title text-xl font-bold text-slate-50 min-h-6">{blog.title}</h3>
                 <p className="subtitle text-slate-500 font-medium min-h-4">{blog.subtitle}</p>
