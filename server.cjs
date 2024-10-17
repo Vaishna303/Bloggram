@@ -134,10 +134,9 @@ app.post('/api/signIn', async (req, res) => {
 //Add Blog
 app.post('/api/addBlog', upload.single('img'), async (req, res) => {
   try {
+   // console.log(req.file);
     const { author, title, subtitle, hashtag, content } = req.body;
     const img = req.file.path;
-
-
     const authorData = await NameModel.findOne({ username: author });
     if (!authorData) {
       return res.status(404).send('Author not found');
@@ -154,6 +153,7 @@ app.post('/api/addBlog', upload.single('img'), async (req, res) => {
     res.status(500).send('Internal Server Error\n');
   }
 });
+
 //Edit Blog
 app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, res) => {
   try {
