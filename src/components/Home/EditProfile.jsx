@@ -18,11 +18,13 @@ const EditProfile = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
   const [msg, setmsg] = useState('');
-
+  
+  const url = "https://bloggram-duh7.onrender.com";
+    
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3002/api/getUserDetails/${user.username}`);
+        const response = await axios.get(`${url}/getUserDetails/${user.username}`);
         setUsername(response.data.username);
         setMail(response.data.mail);
         setPhone(response.data.phone);
@@ -45,7 +47,7 @@ const EditProfile = () => {
     try {
       setIsSaving(true);
       const updatedUserDetails = { username, mail, phone, password, question, answer };
-      await axios.put(`http://localhost:3002/api/updateUserDetails/${user.username}`, updatedUserDetails);
+      await axios.put(`${url}/api/updateUserDetails/${user.username}`, updatedUserDetails);
       setSavedSuccessfully(true);
       setmsg("Successfully edited profile...");
       setUser({...user, username, mail, phone, password, question, answer });

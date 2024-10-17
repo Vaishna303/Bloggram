@@ -14,12 +14,15 @@ const Prof = () => {
     const [mail, setMail] = useState('');
     const [phone, setPhone] = useState('');
 
+    const url = "https://bloggram-duh7.onrender.com";
+    
+
     useEffect(() => {
         const fetchUserBlogs = async () => {
             try {
-                const response = await axios.get(`http://localhost:3002/api/getUserBlogs/${user.username}`);
+                const response = await axios.get(`${url}/api/getUserBlogs/${user.username}`);
                 setBlogs(response.data);
-                const response1 = await axios.get(`http://localhost:3002/api/getUserDetails/${user.username}`);
+                const response1 = await axios.get(`${url}/api/getUserDetails/${user.username}`);
                 setUsername(response1.data.username);
                 
            const formattedDate = new Date(response1.data.createdAt).toLocaleDateString('en-US', {
@@ -44,7 +47,7 @@ const Prof = () => {
     const handleDeleteBlog = async (createdAt) => {
         try {
             const formattedCreatedAt = new Date(createdAt).toISOString();
-            await axios.delete(`http://localhost:3002/api/deleteBlog/${user.username}/${createdAt}`);
+            await axios.delete(`${url}/api/deleteBlog/${user.username}/${createdAt}`);
             setBlogs(prevBlogs => prevBlogs.filter(blog => blog.createdAt !== createdAt));
             alert('Blog deleted successfully');
         } catch (error) {
@@ -93,7 +96,7 @@ const Prof = () => {
                                             <img
                                                 className="px-2 py-2 rounded-3xl"
                                                 style={{ height: "300px", width: "500px" }}
-                                                src={`http://localhost:3002/${blog.img}`}
+                                                src={`${url}/${blog.img}`}
                                                 alt="Uploaded"
                                             />
                                             <div className="w-full flex gap-0 mt-0 min-h-6">

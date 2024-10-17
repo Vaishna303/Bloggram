@@ -19,10 +19,13 @@ const BlogDetails = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
 
+    const url = "https://bloggram-duh7.onrender.com";
+    
+
     useEffect(() => {
         const fetchBlogDetails = async () => {
             try {
-                const response = await axios.get(`https://bloggram-duh7.onrender.com/api/getBlog/${author}/${createdAt}`);
+                const response = await axios.get(`${url}/api/getBlog/${author}/${createdAt}`);
                 setBlog(response.data);
             } catch (error) {
                 console.error("Error fetching blog details:", error);
@@ -34,7 +37,7 @@ const BlogDetails = () => {
 
     const handleLike = async () => {
         try {
-            await axios.post(`https://bloggram-duh7.onrender.com/api/likeBlog/${author}/${createdAt}`);
+            await axios.post(`${url}/api/likeBlog/${author}/${createdAt}`);
              setLike(true); // Update the state to indicate that the blog is liked
             setBlog(prevBlog => ({ ...prevBlog, likes: prevBlog.likes + 1 })); // Update the likes count in the UI
         } catch (error) {
@@ -45,7 +48,7 @@ const BlogDetails = () => {
 
     const handleShare = async () => {
         try {
-            await axios.post(`https://bloggram-duh7.onrender.com/api/shareBlog/${author}/${createdAt}`);
+            await axios.post(`${url}/api/shareBlog/${author}/${createdAt}`);
             setShare(true); // Update the state to indicate that the blog is liked
             setBlog(prevBlog => ({ ...prevBlog, shares: prevBlog.shares + 1 })); // Update the likes count in the UI
         
@@ -59,9 +62,9 @@ const BlogDetails = () => {
 
     const handleAddComment = async () => {
         try {
-            await axios.post(`https://bloggram-duh7.onrender.com/api/addComment/${author}/${createdAt}`, {
+            await axios.post(`${url}/api/addComment/${author}/${createdAt}`, {
                 user: user.username, text: comment});
-            const response = await axios.get(`https://bloggram-duh7.onrender.com/api/getBlog/${author}/${createdAt}`);
+            const response = await axios.get(`${url}/api/getBlog/${author}/${createdAt}`);
             setBlog(response.data);
     
             setComment('');
@@ -90,7 +93,7 @@ const BlogDetails = () => {
                     <img
                         className="rounded-lg shadow-lg mb-4"
                         style={{ height: '400px', width: '600px' }}
-                        src={`https://bloggram-duh7.onrender.com/${blog.img}`} alt="Uploaded"
+                        src={`${url}/${blog.img}`} alt="Uploaded"
                     />
                     <h1 className='text-2xl font-bold'>By {author}</h1>
                     

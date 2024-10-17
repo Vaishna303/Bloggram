@@ -14,6 +14,9 @@ const SignUp = () => {
   const [question, setquestion] = useState('');
   const [answer, setanswer] = useState('');
   
+  
+  const url = "https://bloggram-duh7.onrender.com";
+    
   const handleOnSubmit = async () => {
     try {
       setErrorMessage('');
@@ -43,7 +46,7 @@ const SignUp = () => {
       const current = new Date();
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       const currentDate = current.toLocaleDateString('en-US', options);
-        await axios.post('http://localhost:3002/api/signup', {
+        await axios.post(`${url}/api/signup`, {
         username, mail, phone, password, question, answer, createdAt: currentDate
       });
 
