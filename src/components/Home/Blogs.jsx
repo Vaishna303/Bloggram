@@ -19,8 +19,9 @@ const Blogs = () => {
   const [searchText, setSearchText] = useState("");
   const [showAllTags, setShowAllTags] = useState(false);
 
-  const url = "https://bloggram-duh7.onrender.com";
-    
+  //const url = "https://bloggram-duh7.onrender.com";
+  const url = "https://localhost:3002";
+   
 
   useEffect(() => {
     const fetchBlogs = async () => {

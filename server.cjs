@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3002;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI);

@@ -14,8 +14,9 @@ const DisplayAblog = () => {
     const [blog, setBlog] = useState(null);
     // const [comment, setComment] = useState('');
     // const [comments, setComments] = useState([]);
-    const url = "https://bloggram-duh7.onrender.com";
-    
+    //const url = "https://bloggram-duh7.onrender.com";
+    const url = "https://localhost:3002";
+  
     useEffect(() => {
         const fetchBlogDetails = async () => {
             try {

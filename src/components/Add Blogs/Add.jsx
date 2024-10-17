@@ -20,6 +20,11 @@ const Add = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [msg, setmsg]=useState('');
 
+    
+//  const url = "https://bloggram-duh7.onrender.com";
+const url = "https://localhost:3002";
+    
+
     const [imageUrl, setImageUrl] = useState('');
     const handleImageUrlChange = (e) => {
         setImageUrl(e.target.value);
@@ -76,7 +81,7 @@ const Add = () => {
             hashtag.forEach(tag => formData.append('hashtag', tag));
             formData.append('img', img);
 
-            await axios.post('http://localhost:3002/api/addBlog', formData, {
+            await axios.post(`${url}/api/addBlog`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

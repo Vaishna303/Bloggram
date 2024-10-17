@@ -15,8 +15,9 @@ const SignUp = () => {
   const [answer, setanswer] = useState('');
   
   
-  const url = "https://bloggram-duh7.onrender.com";
-    
+  //const url = "https://bloggram-duh7.onrender.com";
+  const url = "https://localhost:3002";
+  
   const handleOnSubmit = async () => {
     try {
       setErrorMessage('');
