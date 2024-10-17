@@ -19,8 +19,8 @@ const EditProfile = () => {
   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
   const [msg, setmsg] = useState('');
   
-  //const url = "https://bloggram-duh7.onrender.com";
-  const url = "https://localhost:3002";
+  const url = "https://bloggram-duh7.onrender.com";
+  //const url = "https://localhost:3002";
   
   useEffect(() => {
     const fetchUserDetails = async () => {

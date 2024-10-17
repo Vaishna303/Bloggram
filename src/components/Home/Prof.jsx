@@ -14,8 +14,8 @@ const Prof = () => {
     const [mail, setMail] = useState('');
     const [phone, setPhone] = useState('');
 
-    //const url = "https://bloggram-duh7.onrender.com";
-    const url = "https://localhost:3002";
+    const url = "https://bloggram-duh7.onrender.com";
+    //const url = "https://localhost:3002";
   
 
     useEffect(() => {
