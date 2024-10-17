@@ -8,7 +8,7 @@
     "server": "nodemon server.cjs --quiet",
     "client": "vite --host",
     "build": "echo 'Running vite build...' && npx vite build",
-    "start" : "node server.cjs",
+    "start" : "npm run build && node server.cjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "vite preview": "vite preview"
   },
