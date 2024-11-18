@@ -19,12 +19,13 @@ const EditProfile = () => {
   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
   const [msg, setmsg] = useState('');
   
-  const url = "https://bloggram-duh7.onrender.com";
-  //const url = "https://localhost:3002";
+  //const url = "https://bloggram-duh7.onrender.com";
+  const url = "http://localhost:3002";
   
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
+        console.log(user.username);
         const response = await axios.get(`${url}/getUserDetails/${user.username}`);
         setUsername(response.data.username);
         setMail(response.data.mail);
@@ -32,6 +33,7 @@ const EditProfile = () => {
         setPassword(response.data.password);
         setquestion(response.data.question);
         setanswer(response.data.answer);
+        console.log("ENd", user.username);
       } catch (error) {
         console.error('Error fetching user details:', error);
         alert('Error fetching user details. Please try again.');
@@ -63,20 +65,20 @@ const EditProfile = () => {
   //   return <Prof />
   // }
   if (savedSuccessfully) {
-    navigate('/profile'); // Change the URL to the Prof component
-    return null; // Return null to prevent rendering of EditProfile component
+    navigate('/profile');
+    return null; 
 }
   return (
     <div className="w-full h-[40rem] grid place-items-center">
       <div className="w-[22rem] h-[30rem] flex-col gap-2 px-2 py-3 mx-auto mt-4">
         <h3 className="font-bold text-slate-50 text-3xl text-center mt-0">EDIT PROFILE</h3>
         <div className="w-full px-4 flex flex-col gap-4 my-5">
-          <input type="text" onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Username" />
-          <input type="text" onChange={(e) => setMail(e.target.value)} value={mail} placeholder="E-mail" />
+          <input type="text" onChange={(e) => setUsername(e.target.value)} title="Username" value={username} placeholder="Username" />
+          <input type="text" onChange={(e) => setMail(e.target.value)} title="email" value={mail} placeholder="E-mail" />
           <input type="tel" onChange={(e) => setPhone(e.target.value)} value={phone} pattern="[0-9]{10}" title="Phone number must have exactly 10 digits." placeholder="Enter Phone-no" />
-          <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Enter password" />
-          <input type="text" onChange={(e) => setquestion(e.target.value)} value={question} placeholder="Set Security question" />
-          <input type="text" onChange={(e) => setanswer(e.target.value)} value={answer} placeholder="Provide the answer" />
+          <input type="password" onChange={(e) => setPassword(e.target.value)} title="Strong password" value={password} placeholder="Enter password" />
+          <input type="text" onChange={(e) => setquestion(e.target.value)} title="Security Question" value={question} placeholder="Set Security question" />
+          <input type="text" onChange={(e) => setanswer(e.target.value)} title="Security Answer" value={answer} placeholder="Provide the answer" />
          
         </div>
         <div className="w-full flex flex-col place-items-center gap-4">

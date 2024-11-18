@@ -32,7 +32,7 @@ const upload = multer({ storage: storage });
 
 const PORT = process.env.PORT || 3002;
 const MONGODB_URI = process.env.MONGODB_URI;
-
+//const MONGODB_URI = 'mongodb://127.0.0.1:27017/Bloggram';
 mongoose.connect(MONGODB_URI);
 
 const db = mongoose.connection;
@@ -54,6 +54,7 @@ const BlogSchema = new mongoose.Schema({
   img: String,
   title: String,
   subtitle: String,
+  category: String,
   content: String,
   hashtag: [String],
   likes: { type: Number, default: 0 },
@@ -84,6 +85,7 @@ app.get('/api/getAllBlogs', async (req, res) => {
           img: blog.img,
           title: blog.title,
           subtitle: blog.subtitle,
+          category : blog.category,
           content: blog.content,
           hashtag: blog.hashtag,
           likes: blog.likes,
@@ -100,49 +102,100 @@ app.get('/api/getAllBlogs', async (req, res) => {
     res.status(500).send('Internal Server Error\n');
   }
 });
+
 //User SignUp
-app.post('/api/signup', (req, res) => {
+// app.post('/api/signup', (req, res) => {
+//   console.log('Received request:', req.body);
+//   const { username, mail, phone, password, question, answer } = req.body;
+
+//   const newName = new NameModel({ username, mail, phone, password, question, answer });
+//   newName.save()
+//     .then(() => {
+//       console.log('Data saved successfully');
+//       res.status(200).send('Successfully signin');
+//     })
+//     .catch((err) => {
+//       console.error('Error saving data to MongoDB:', err);
+//       res.status(500).send('Internal Server Error\n');
+//     });
+// });
+
+app.post('/api/signup', async (req, res) => {
   console.log('Received request:', req.body);
   const { username, mail, phone, password, question, answer } = req.body;
-  const newName = new NameModel({ username, mail, phone, password, question, answer });
-  newName.save()
-    .then(() => {
-      console.log('Data saved successfully');
-      res.status(200).send('Successfully signin');
-    })
-    .catch((err) => {
-      console.error('Error saving data to MongoDB:', err);
-      res.status(500).send('Internal Server Error\n');
-    });
+
+  try {
+    // Check if the email already exists
+    const existingUser = await NameModel.findOne({ mail });
+    if (existingUser) {
+      console.error('EEmail already registered :', mail);
+      return res.status(400).send('Email is already registered.');
+    }
+
+    // If not, create a new user
+    const newName = new NameModel({ username, mail, phone, password, question, answer });
+    await newName.save();
+
+    console.log('Data saved successfully');
+    res.status(200).send('Successfully signed up');
+  } catch (err) {
+    console.error('Error saving data to MongoDB:', err);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 //User SignIn
+// app.post('/api/signIn', async (req, res) => {
+//   try {
+//     const { mail, password } = req.body;
+//     const user = await NameModel.findOne({ mail, password});
+//     if (user) {
+//       res.status(200).send({ message: 'User exists', user});
+//     } else {
+//       console.log('User Does not exist');
+//       res.status(404).send({ message: 'User not found', user });
+//     }
+//   } catch (error) {
+//     console.error('Error checking user:', error);
+//     res.status(500).send('Internal Server Error\n');
+//   }
+// });
+
 app.post('/api/signIn', async (req, res) => {
   try {
     const { mail, password } = req.body;
-    const user = await NameModel.findOne({ mail, password });
-    if (user) {
-      res.status(200).send({ message: 'User exists', user});
-    } else {
-      console.log('User Does not exist');
-      res.status(404).send({ message: 'User not found', user });
+    const user = await NameModel.findOne({ mail }); // Check if email exists
+
+    if (!user) {
+      // Case: Email is not registered
+      return res.status(404).send({ message: 'Email not registered' });
     }
+
+    if (user.password !== password) {
+      // Case: Password is incorrect
+      return res.status(401).send({ message: 'Incorrect password' });
+    }
+
+    // Case: Valid email and password
+    res.status(200).send({ message: 'User signed in successfully', user });
   } catch (error) {
     console.error('Error checking user:', error);
-    res.status(500).send('Internal Server Error\n');
+    res.status(500).send({ message: 'Internal Server Error' });
   }
 });
+
 //Add Blog
 app.post('/api/addBlog', upload.single('img'), async (req, res) => {
   try {
    // console.log(req.file);
-    const { author, title, subtitle, hashtag, content } = req.body;
+    const { author, title, subtitle, category, hashtag, content } = req.body;
     const img = req.file.path;
     const authorData = await NameModel.findOne({ username: author });
     if (!authorData) {
       return res.status(404).send('Author not found');
     }
     const newBlog = {
-      title: title, subtitle: subtitle, hashtag: hashtag, img: img, content: content, createdAt: new Date()
+      title: title, subtitle: subtitle, hashtag: hashtag, img: img, content: content, category: category, createdAt: new Date()
     };
     authorData.posts.push(newBlog);
     await authorData.save();
@@ -158,7 +211,7 @@ app.post('/api/addBlog', upload.single('img'), async (req, res) => {
 app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, res) => {
   try {
     const { author, createdAt } = req.params;
-    const { title, subtitle, content, created, hashtag} = req.body;    
+    const { title, subtitle, content, category, created, hashtag} = req.body;    
     const img = req.file ? req.file.path : '';
     const user = await NameModel.findOne({ username:author});
     if (!user) {
@@ -176,6 +229,7 @@ app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, re
     user.posts[blogIndex].title = title;
     user.posts[blogIndex].subtitle = subtitle;
     user.posts[blogIndex].content = content;
+    user.posts[blogIndex].category = category;
     user.posts[blogIndex].createdAt = new Date();
     user.posts[blogIndex].img = img;
 

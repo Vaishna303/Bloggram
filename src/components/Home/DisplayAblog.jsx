@@ -14,8 +14,8 @@ const DisplayAblog = () => {
     const [blog, setBlog] = useState(null);
     // const [comment, setComment] = useState('');
     // const [comments, setComments] = useState([]);
-    const url = "https://bloggram-duh7.onrender.com";
-    //const url = "https://localhost:3002";
+    //const url = "https://bloggram-duh7.onrender.com";
+    const url = "http://localhost:3002";
   
     useEffect(() => {
         const fetchBlogDetails = async () => {
@@ -50,7 +50,7 @@ const DisplayAblog = () => {
                     month: 'long',
                     day: 'numeric'
                   })}</p>
-                    <img className="rounded-lg shadow-lg mb-4" style={{ height: '400px', width: '600px' }} src={`url/${blog.img}`} alt="Uploaded" />
+                    <img className="rounded-lg shadow-lg mb-4" style={{ height: '400px', width: '600px' }} src={`${url}/${blog.img}`} alt="Uploaded" />
                     <div className="flex gap-0 mt-0 min-h-6">
                         {blog.hashtag.map((tag, index) => (
                             <Tag
@@ -83,9 +83,9 @@ const DisplayAblog = () => {
                     <div className="mt-8">
                         <h3 className="text-xl font-semibold mb-2">Comments</h3>
                         {blog.comments.length ? (<>{blog.comments.reverse().map((comment, index) => (
-                <div key={index} className="border border-gray-300 rounded-md p-2 mt-2">
-                    <p><strong>{comment.by} : </strong> {comment.text}</p>
-                </div>))}</>) : <div className="border border-gray-300 rounded-md p-2 mt-2">
+                            <div key={index} className="border border-gray-300 rounded-md p-2 mt-2">
+                                <p><strong>{comment.by} : </strong> {comment.text}</p>
+                            </div>))}</>) : <div className="border border-gray-300 rounded-md p-2 mt-2">
                     <p><strong>NO comments yet</strong></p>
                 </div>
             }

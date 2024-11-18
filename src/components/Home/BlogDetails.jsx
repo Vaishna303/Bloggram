@@ -19,8 +19,8 @@ const BlogDetails = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
 
-    const url = "https://bloggram-duh7.onrender.com";
-    //const url = "https://localhost:3002";
+    //const url = "https://bloggram-duh7.onrender.com";
+    const url = "http://localhost:3002";
   
 
     useEffect(() => {
@@ -108,23 +108,15 @@ const BlogDetails = () => {
                             />
                         ))}
                     </div>
+
                     <div className='text-white' dangerouslySetInnerHTML={{ __html: blog.content }}></div>
                     <br />
                     <div className="mt-8">
-                        <FontAwesomeIcon
-                            onClick={handleLike}
-                            icon={faThumbsUp}
-                            className={`text-blue-500 text-3xl mr-2 hover:text-blue-900 ${like ? 'text-blue-900' : ''}`}
-                        />
-                        <span className="mr-4">{blog.likes} </span>
-                        
-                        <FontAwesomeIcon
-                            onClick={handleShare}
-                            icon={faShare}
-                            className={`text-green-500 mt-4 text-3xl mr-2 hover:text-green-900 ${share ? 'text-green-900' : ''}`}
-                        />
-                        <span className="mr-4">{blog.shares} </span>
+                        <FontAwesomeIcon onClick={handleLike} icon={faThumbsUp} className={`text-blue-500 text-3xl mr-2 hover:text-blue-900 ${like ? 'text-blue-900' : ''}`} /><span className="mr-4">{blog.likes} </span>   
+                        <FontAwesomeIcon onClick={handleShare} icon={faShare} className={`text-green-500 mt-4 text-3xl mr-2 hover:text-green-900 ${share ? 'text-green-900' : ''}`} /><span className="mr-4">{blog.shares} </span>
                     </div>
+                    {user && <div>
+                    
                     <div className="mt-8">
                         <h3 className="text-xl font-semibold mb-2">Comments</h3>
                         <input
@@ -142,6 +134,7 @@ const BlogDetails = () => {
                             </div>
                         ))}
                     </div>
+                    </div> }
                 </div>
             )}
         </div>

@@ -15,8 +15,8 @@ const SignUp = () => {
   const [answer, setanswer] = useState('');
   
   
-  const url = "https://bloggram-duh7.onrender.com";
-  //const url = "https://localhost:3002";
+  //const url = "https://bloggram-duh7.onrender.com";
+  const url = "http://localhost:3002";
   
   const handleOnSubmit = async () => {
     try {
@@ -61,8 +61,8 @@ const SignUp = () => {
         setErrorMessage('');
 
     } catch (error) {
-      console.error('Error submitting data:', error);
-      alert('Error submitting data. Please try again.');
+      console.error('eeerror submitting data:', error);
+      alert('EEEError submitting data.');
     }
   };
   const handleMail = (e)=>{

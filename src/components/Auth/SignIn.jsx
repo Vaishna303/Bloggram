@@ -9,37 +9,72 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [signInSuccess, setSignInSuccess] = useState(false);
   const [msg, setmsg]=useState('');
-
-  const url = "https://bloggram-duh7.onrender.com";
-  //const url = "https://localhost:3002";
+  const [incor, setincor] = useState(false);
+  //const url = "https://bloggram-duh7.onrender.com";
+  const url = "http://localhost:3002";
   
+  // const handleOnSubmit = async () => {
+  //   try {
+  //     if (!mail || !password) {
+  //       setmsg('Please make sure all fields are entered');
+  //       return;
+  //     }
+  //     const response = await axios.post(`${url}/api/signIn`, { mail, password });
+  //     if (response.status === 200) {
+  //       setUser(response.data.user);
+  //       setSignInSuccess(true);
+  //       setmsg(mail+" SIGNED IN....");
+  //       setMail('');
+  //       setPassword('');
+  //     }
+  //   } catch (error) {
+      
+  //     setmsg('User not found. Please check your credentials.');
+  //   }
+  // };
   const handleOnSubmit = async () => {
     try {
+      
       if (!mail || !password) {
         setmsg('Please make sure all fields are entered');
         return;
       }
+  
       const response = await axios.post(`${url}/api/signIn`, { mail, password });
+  
       if (response.status === 200) {
         setUser(response.data.user);
         setSignInSuccess(true);
-        setmsg(mail+" SIGNED IN....");
+        setmsg(`${mail} SIGNED IN....`);
         setMail('');
         setPassword('');
       }
     } catch (error) {
-      
-      setmsg('User not found. Please check your credentials.');
+      if (error.response) {
+        // Handle different response status codes
+        if (error.response.status === 404) {
+          setmsg('Email not registered. Please sign up.');
+        } else if (error.response.status === 401) {
+          setmsg('Incorrect password. Please try again.');
+          setincor(true);
+        } else {
+          setmsg('An unexpected error occurred. Please try again later.');
+        }
+      } else {
+        setmsg('Unable to connect to the server. Please try again.');
+      }
     }
   };
-
+  
   const handleMail = (e)=>{
     setMail(e.target.value);
     setmsg('');
+    setincor(false);
   }
   const handlePass = (e)=>{
     setPassword(e.target.value);
     setmsg('');
+    setincor(false);
   }
 
   return (
@@ -61,7 +96,12 @@ const SignIn = () => {
           {!signInSuccess && <>
               <p>{msg}</p>
               </>}
-              <p><Link className="text-indigo-500 text-medium text-xl" to="/signin/forgotpwd">Forgot Password ?</Link></p>
+          
+              {incor && <>
+                <p><Link className="text-indigo-500 text-medium text-xl" to="/signin/forgotpwd">Forgot Password ?</Link></p>
+          
+              </>}
+              
           
           </div>
           
