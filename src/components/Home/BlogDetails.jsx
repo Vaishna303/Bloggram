@@ -20,7 +20,8 @@ const BlogDetails = () => {
     const [comments, setComments] = useState([]);
 
     //const url = "https://bloggram-duh7.onrender.com";
-    const url = "http://localhost:3002";
+    const url = "https://bloggram-2.onrender.com";
+    //const url = "http://localhost:3002";
 
 
     useEffect(() => {

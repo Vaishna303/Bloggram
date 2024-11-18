@@ -22,8 +22,9 @@ const Blogs = () => {
   const categories = ["All", "Technology", "Lifestyle", "Health", "Business", "Entertainment", "Food", "Art & Design", "Science", "Sports", "Politics", "Other"];
   
   //const url = "https://bloggram-duh7.onrender.com";
-   const url = "http://localhost:3002";
-
+   //const url = "http://localhost:3002";
+   const url = "https://bloggram-2.onrender.com";
+    
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
