@@ -110,7 +110,7 @@ const Add = () => {
     return (
         <div className='px-4'>
         <div className="w-full h-[26rem] grid place-items-center pt-2">
-            <h1 className='font-bold text-3xl'>Bllog Upload</h1>
+            <h1 className='font-bold text-3xl'>Blog Uploadd</h1>
             <div className="w-2/5">
             <label htmlFor="category" className="w-2/5">Category: </label>
                     <select

@@ -9,9 +9,9 @@ const bodyParser = require('body-parser');
 //const cors = require('cors');
 const cors = require('cors');
 app.use(cors({
-  origin: '*', // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  credentials: true, // Allow cookies
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, 
 }));
 
 const multer = require('multer');
@@ -21,7 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(express.static(path.join(__dirname, 'dist'))); // Serve the 'dist' folder where Vite builds files
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 const storage = multer.diskStorage({

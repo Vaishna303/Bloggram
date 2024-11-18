@@ -21,7 +21,7 @@ const BlogDetails = () => {
 
     //const url = "https://bloggram-duh7.onrender.com";
     const url = "http://localhost:3002";
-  
+
 
     useEffect(() => {
         const fetchBlogDetails = async () => {
@@ -39,7 +39,7 @@ const BlogDetails = () => {
     const handleLike = async () => {
         try {
             await axios.post(`${url}/api/likeBlog/${author}/${createdAt}`);
-             setLike(true); // Update the state to indicate that the blog is liked
+            setLike(true); // Update the state to indicate that the blog is liked
             setBlog(prevBlog => ({ ...prevBlog, likes: prevBlog.likes + 1 })); // Update the likes count in the UI
         } catch (error) {
             console.error('Frontend - Error liking blog:', error);
@@ -52,7 +52,7 @@ const BlogDetails = () => {
             await axios.post(`${url}/api/shareBlog/${author}/${createdAt}`);
             setShare(true); // Update the state to indicate that the blog is liked
             setBlog(prevBlog => ({ ...prevBlog, shares: prevBlog.shares + 1 })); // Update the likes count in the UI
-        
+
             const whatsappShareUrl = `whatsapp://send?text=${encodeURIComponent(window.location.href)}`;
             window.open(whatsappShareUrl);
         } catch (error) {
@@ -64,17 +64,18 @@ const BlogDetails = () => {
     const handleAddComment = async () => {
         try {
             await axios.post(`${url}/api/addComment/${author}/${createdAt}`, {
-                user: user.username, text: comment});
+                user: user.username, text: comment
+            });
             const response = await axios.get(`${url}/api/getBlog/${author}/${createdAt}`);
             setBlog(response.data);
-    
+
             setComment('');
         } catch (error) {
             console.error('Frontend - Error adding comment:', error);
             alert('FrontEnd - Error adding comment. Please try again.');
         }
     };
-    
+
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
@@ -86,18 +87,18 @@ const BlogDetails = () => {
                     <h2 className='text-4xl font-bold mb-4'>{blog.title}</h2>
                     <p className='text-3xl mb-2'>{blog.subtitle}</p>
                     <p className='text-gray-900 mb-4 font-bold'>{new Date(blog.createdAt).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}</p>
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })}</p>
                     <img
                         className="rounded-lg shadow-lg mb-4"
                         style={{ height: '400px', width: '600px' }}
                         src={`${url}/${blog.img}`} alt="Uploaded"
                     />
                     <h1 className='text-2xl font-bold'>By {author}</h1>
-                    
+
                     <div className="flex gap-0 mt-0 min-h-6 mb-2">
                         {blog.hashtag.map((tag, index) => (
                             <Tag
@@ -111,30 +112,35 @@ const BlogDetails = () => {
 
                     <div className='text-white' dangerouslySetInnerHTML={{ __html: blog.content }}></div>
                     <br />
-                    <div className="mt-8">
-                        <FontAwesomeIcon onClick={handleLike} icon={faThumbsUp} className={`text-blue-500 text-3xl mr-2 hover:text-blue-900 ${like ? 'text-blue-900' : ''}`} /><span className="mr-4">{blog.likes} </span>   
+                    <div className="mt-4 mb-6">
+                        <FontAwesomeIcon onClick={handleLike} icon={faThumbsUp} className={`text-blue-500 text-3xl mr-2 hover:text-blue-900 ${like ? 'text-blue-900' : ''}`} /><span className="mr-4">{blog.likes} </span>
                         <FontAwesomeIcon onClick={handleShare} icon={faShare} className={`text-green-500 mt-4 text-3xl mr-2 hover:text-green-900 ${share ? 'text-green-900' : ''}`} /><span className="mr-4">{blog.shares} </span>
                     </div>
+
+
+                    <h3 className="text-xl font-semibold">Comments</h3>
                     {user && <div>
-                    
-                    <div className="mt-8">
-                        <h3 className="text-xl font-semibold mb-2">Comments</h3>
-                        <input
-                            type="text"
-                            value={comment}
-                            onChange={handleCommentChange}
-                            placeholder="Add a comment..."
-                            className="text-white border border-gray-400 rounded-md px-2 py-1 w-full mb-2"
-                        />
-                        <button onClick={handleAddComment} className="bg-blue-500 text-white px-3 py-1 rounded-md mb-4">Add Comment</button>
-                        
+
+                        <div className="mt-4">
+                            <input
+                                type="text"
+                                value={comment}
+                                onChange={handleCommentChange}
+                                placeholder="Add a comment..."
+                                className="text-white border border-gray-400 rounded-md px-2 py-1 w-full mb-2"
+                            />
+                            <button onClick={handleAddComment} className="bg-blue-500 text-white px-3 py-1 rounded-md mb-4">Add Comment</button>
+                        </div>
+                    </div>}
+                    <div className="w-64 mt-3">
                         {blog.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((comment, index) => (
                             <div key={index} className="border border-gray-300 rounded-md p-2 mt-2">
-                                <p className='pl-2'><strong>{comment.by}</strong><br/>{comment.text}</p>
+                                <p className='pl-2'><strong>{comment.by}</strong><br />{comment.text}</p>
                             </div>
                         ))}
                     </div>
-                    </div> }
+
+
                 </div>
             )}
         </div>

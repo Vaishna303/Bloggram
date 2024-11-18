@@ -6,6 +6,8 @@ import axios from 'axios';
 const Home = () => {
     const [latestBlogs, setLatestBlogs] = useState([]);
     const [featuredBlogs, setFeaturedBlogs] = useState([]);
+    
+    //const url = "https://bloggram-duh7.onrender.com";
     const url = "http://localhost:3002";
 
     useEffect(() => {
