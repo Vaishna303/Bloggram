@@ -19,7 +19,7 @@ const EditProfile = () => {
   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
   const [msg, setmsg] = useState('');
   
-  //const url = "https://bloggram-duh7.onrender.com";
+  
   //const url = "http://localhost:3002";
   const url = "https://bloggram-2.onrender.com";
     

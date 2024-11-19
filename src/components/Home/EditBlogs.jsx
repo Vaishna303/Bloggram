@@ -21,7 +21,7 @@ const EditBlogs = () => {
     const [BLOG, setBlog] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false); // Track success state
 
-    //const url = "https://bloggram-duh7.onrender.com";
+    
     //const url = "http://localhost:3002";
     const url = "https://bloggram-2.onrender.com";
     

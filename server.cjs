@@ -312,9 +312,9 @@ app.get('/api/getBlog/:author', async (req, res) => {
 });
 
 //Get all blogs of a specific blogger
-app.get('/api/getUserBlogs/:userId', async (req, res) => {
+app.get('/api/getUserBlogs/:emailId', async (req, res) => {
   try {
-    const userBlogs = await NameModel.findOne({username : req.params.userId});
+    const userBlogs = await NameModel.findOne({mail : req.params.emailId});
     if (!userBlogs) {
       console.log("Not found")
       return res.status(404).json({ message: "User not found" });
