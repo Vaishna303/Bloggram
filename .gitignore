@@ -1,2 +1,23 @@
 .env
 node_modules/
+
+
+# Featured Blogs - One blog from each category
+# How It works - Want to add a ppt which shows the working
+# Explore Categories - A page showing blog of specific category
+# Recent Posts - Recent 5 Posts
+
+
+# If not logged in or registered
+# then can view, like and share the blog, but cannot comment
+
+# For SignUp
+# -No duplicate emails
+
+# For SignIn
+# -Forgot Functionality Added
+
+# Registered User can
+# -Edit its profile
+# -Edit, delete their posted blogs
+# -Comment on other's blogs

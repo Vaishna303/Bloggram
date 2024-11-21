@@ -17,7 +17,7 @@ const Navbar = () => {
                  {!user ?
                  <li className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={`/signin`}> Sign In </Link></li>
                 :
-                <li className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={`/signin`}> SignedIn </Link></li>
+                <li className='text-2xl font-medium hover:underline hover:text-3xl'> <Link to={`/signin`}> Dashboard </Link></li>
                 }
                  </>
                 }

@@ -14,6 +14,7 @@ const Add = () => {
     const [img, setImage] = useState(null);
     const [title, setTitle] = useState('');
     const [subtitle, setSubtitle] = useState('');
+    const [category, setCategory] = useState('');
     const [content, setContent] = useState('');
     const [hashtagsInput, setHashtagsInput] = useState('');
     const [hashtag, setHashtag] = useState([]);
@@ -21,8 +22,8 @@ const Add = () => {
     const [msg, setmsg]=useState('');
 
     
-   const url = "https://bloggram-duh7.onrender.com";
-   //const url = "https://localhost:3002";
+    //const url = "http://localhost:3002";
+    const url = "https://bloggram-2.onrender.com";
     
 
     const [imageUrl, setImageUrl] = useState('');
@@ -76,6 +77,8 @@ const Add = () => {
             formData.append('author', user.username);
             formData.append('title', title);
             formData.append('subtitle', subtitle);
+            formData.append('category', category);
+            
             formData.append('content', content);
             formData.append('createdAt', currentDate.toISOString());
             hashtag.forEach(tag => formData.append('hashtag', tag));
@@ -107,13 +110,41 @@ const Add = () => {
     return (
         <div className='px-4'>
         <div className="w-full h-[26rem] grid place-items-center pt-2">
-            <h1 className='font-bold text-3xl'>Blog Upload</h1>
-            <div className="w-1/5"><input value={user.username} type="text" placeholder="enter user" readOnly /></div>
-            <div className="w-1/5"><input value={title} onChange={(e) => setTitle(e.target.value)} type="text" placeholder="enter title" /></div>
-            <div className="w-1/5"><input value={subtitle} onChange={(e) => setSubtitle(e.target.value)} type="text" placeholder="enter subtitle" /></div>
-            <div className="w-1/5"><input value={hashtagsInput} onChange={handleHashtagsChange} type="text" placeholder="enter #hashtagtag" /></div>
-            <div className="w-1/5"><input type="file" name="img" onChange={handleImageChange}  ref={fileInputRef}/></div>   
-            <div className="w-1/5 flex">
+            <h1 className='font-bold text-3xl'>Blog Uploadd</h1>
+            <div className="w-2/5">
+            <label htmlFor="category" className="w-2/5">Category: </label>
+                    <select
+                        className="text-black w-2/5 px-2"
+                        name="category"
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)} // Controlled select value
+                        required
+                    >
+                        <option value="">Select category</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Health">Health</option>
+                        <option value="Business">Business</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Food">Food</option>
+                        <option value="Art & Design">Art & Design</option>
+                        <option value="Science">Science</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Politics">Politics</option>
+                        
+                        <option value="Other">Other</option>
+                        
+                    </select>
+            
+            </div>
+            
+            <div className="w-2/5"><input value={user.username} type="text" placeholder="enter user" readOnly /></div>
+            <div className="w-2/5"><input value={title} onChange={(e) => setTitle(e.target.value)} type="text" placeholder="enter title" /></div>
+            <div className="w-2/5"><input value={subtitle} onChange={(e) => setSubtitle(e.target.value)} type="text" placeholder="enter subtitle" /></div>
+            <div className="w-2/5"><input value={hashtagsInput} onChange={handleHashtagsChange} type="text" placeholder="enter #hashtagtag" /></div>
+            <div className="w-2/5"><input type="file" name="img" onChange={handleImageChange}  ref={fileInputRef}/></div>   
+            <div className="w-2/5 flex">
     <input
         type="text"
         value={imageUrl}
