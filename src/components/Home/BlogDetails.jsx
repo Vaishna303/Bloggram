@@ -20,7 +20,7 @@ const BlogDetails = () => {
     const [comments, setComments] = useState([]);
 
     
-    //const url = "http://localhost:3002";
+    // const url = "http://localhost:3002";
     const url = "https://bloggram-2.onrender.com";
     
 
@@ -85,7 +85,15 @@ const BlogDetails = () => {
         <div className='p-4'>
             {blog && (
                 <div className='p-6 px-20 border-4 items-center justify-center bg-slate-600 rounded-lg flex flex-col'>
+                    {/* {!user &&(
+                        <p>No user</p>
+                    )}
+                    {user && (
+                        <p>I am {user}.</p>
+                    )
+                    } */}
                     <h2 className='text-4xl font-bold mb-4'>{blog.title}</h2>
+
                     <p className='text-3xl mb-2'>{blog.subtitle}</p>
                     <p className='text-gray-900 mb-4 font-bold'>{new Date(blog.createdAt).toLocaleDateString('en-US', {
                         weekday: 'long',

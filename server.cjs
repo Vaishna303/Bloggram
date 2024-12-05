@@ -187,9 +187,10 @@ app.post('/api/signIn', async (req, res) => {
 //Add Blog
 app.post('/api/addBlog', upload.single('img'), async (req, res) => {
   try {
-   // console.log(req.file);
-    const { author, title, subtitle, category, hashtag, content } = req.body;
+   const { author, title, subtitle, category, hashtag, content } = req.body;
     const img = req.file.path;
+    console.log("New Blogs : ", req.body);
+
     const authorData = await NameModel.findOne({ username: author });
     if (!authorData) {
       return res.status(404).send('Author not found');
@@ -225,16 +226,14 @@ app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, re
       res.status(404).send('Blog not found');
       return;
     }
-
     user.posts[blogIndex].title = title;
     user.posts[blogIndex].subtitle = subtitle;
     user.posts[blogIndex].content = content;
     user.posts[blogIndex].category = category;
     user.posts[blogIndex].createdAt = new Date();
+    if(req.file)
     user.posts[blogIndex].img = img;
-
     user.posts[blogIndex].hashtag = hashtag;
-
     await user.save();
     console.log('Blog updated successfully');
     res.status(200).json(user.posts[blogIndex]);
@@ -243,8 +242,9 @@ app.put('/api/editBlog/:author/:createdAt', upload.single('img'), async (req, re
     res.status(500).send('Internal Server Error');
   }
 });
+
 //Delete Blog
-app.delete('/api/deleteBlog/:username/:createdAt', async (req, res) => {
+app.delete('/api/deleteBlogg/:username/:createdAt', async (req, res) => {
   try {
     const { username, createdAt } = req.params;
   const user = await NameModel.findOne({ username });
@@ -282,6 +282,54 @@ app.delete('/api/deleteBlog/:username/:createdAt', async (req, res) => {
     res.status(500).json({ message: 'Backend- Internal server error' });
   }
 });
+
+app.delete('/api/deleteBlog/:username/:createdAt', async (req, res) => {
+  try {
+    const { username, createdAt } = req.params;
+
+    // Find the user by username
+    const user = await NameModel.findOne({ username });
+    if (!user) {
+      console.log("User not found");
+      return res.status(404).send('User not found');
+    }
+    console.log("User found");
+
+    // Find the index of the blog post by createdAt
+    const postIndex = user.posts.findIndex(
+      (post) => post.createdAt.toISOString() === new Date(createdAt).toISOString()
+    );
+    if (postIndex === -1) {
+      console.log("Post not found");
+      return res.status(404).send('Post not found');
+    }
+    console.log("Post found at index:", postIndex);
+
+    // Retrieve the specific blog post
+    const blogToDelete = user.posts[postIndex];
+
+    // Check if the blog has an image and delete the image file
+    if (blogToDelete.img) {
+      fs.unlink(blogToDelete.img, (err) => {
+        if (err) {
+          console.error('Error deleting image:', err);
+        } else {
+          console.log('Image deleted successfully');
+        }
+      });
+    }
+
+    // Remove the blog post from the user's posts array
+    user.posts.splice(postIndex, 1);
+    await user.save();
+
+    res.json({ message: 'BackEnd - Blog post deleted successfully' });
+  } catch (error) {
+    console.error('Backend - Error deleting blog post:', error);
+    res.status(500).json({ message: 'Backend - Internal server error' });
+  }
+});
+
 //Get Specific Blog
 app.get('/api/getBlog/:author/:createdAt', async (req, res) => {
   try {

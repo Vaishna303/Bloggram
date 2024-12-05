@@ -20,7 +20,7 @@ const EditProfile = () => {
   const [msg, setmsg] = useState('');
   
   
-  //const url = "http://localhost:3002";
+  // const url = "http://localhost:3002";
   const url = "https://bloggram-2.onrender.com";
     
   useEffect(() => {

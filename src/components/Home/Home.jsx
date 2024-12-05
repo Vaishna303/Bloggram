@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 
 import axios from 'axios';
-
+import UserContext from '../Auth/UserContext';
 const Home = () => {
+   
+    const { user, setUser } = useContext(UserContext);
     const [latestBlogs, setLatestBlogs] = useState([]);
     const [featuredBlogs, setFeaturedBlogs] = useState([]);
     
     
-    //const url = "http://localhost:3002";
+    // const url = "http://localhost:3002";
     const url = "https://bloggram-2.onrender.com";
     
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
                 const response = await axios.get(`${url}/api/getAllBlogs`);
-                const sortedBlogs = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                const featured = response.data.sort((a, b) => b.likes - a.likes);
+
+                const featured = [...response.data].sort((a, b) => b.likes - a.likes);
+                const sortedBlogs = [...response.data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
                 setFeaturedBlogs(featured);
                 setLatestBlogs(sortedBlogs);
             } catch (error) {
@@ -41,7 +45,7 @@ const Home = () => {
                 <h2 className="text-center text-2xl mb-4 font-semibold">Featured Blogs</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-black">
                     {featuredBlogs.length > 0 ? (
-                        featuredBlogs.slice(0, 5).map((blog, index) => (
+                        featuredBlogs.slice(0, 3).map((blog, index) => (
            
                            <div key={index} className="bg-white p-4 rounded-lg shadow-md transition-transform duration-200 hover:scale-105">
                             
@@ -114,7 +118,7 @@ const Home = () => {
                 <h2 className="text-center text-2xl mb-4 font-semibold">Recent Posts</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-black">
                     {latestBlogs.length > 0 ? (
-                        latestBlogs.slice(0, 5).map((blog, index) => (
+                        latestBlogs.slice(0, 3).map((blog, index) => (
                             <div key={index} className="bg-white p-4 rounded-lg shadow-md transition-transform duration-200 hover:scale-105">
                                 <h3 className="font-semibold text-lg">{blog.title}</h3>
                                 <h4 className="font-bold text-md">{blog.subtitle}</h4>

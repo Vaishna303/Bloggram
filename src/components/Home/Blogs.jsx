@@ -22,7 +22,7 @@ const Blogs = () => {
   const categories = ["All", "Technology", "Lifestyle", "Health", "Business", "Entertainment", "Food", "Art", "Science", "Sports", "Politics", "Other"];
   
   
-  //const url = "http://localhost:3002";
+  // const url = "http://localhost:3002";
   const url = "https://bloggram-2.onrender.com";
     
   useEffect(() => {

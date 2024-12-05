@@ -22,7 +22,7 @@ const Add = () => {
     const [msg, setmsg]=useState('');
 
     
-    //const url = "http://localhost:3002";
+    // const url = "http://localhost:3002";
     const url = "https://bloggram-2.onrender.com";
     
 
@@ -59,7 +59,7 @@ const Add = () => {
 
     const validateForm = () => {
         
-       if (!author || !title || !subtitle || !content || !img || !hashtag.length) {
+       if (!author || !title || !category || !subtitle || !content || !img || !hashtag.length) {
             setErrorMessage('Please fill in all fields.');
             return false;
         }
@@ -110,7 +110,7 @@ const Add = () => {
     return (
         <div className='px-4'>
         <div className="w-full h-[26rem] grid place-items-center pt-2">
-            <h1 className='font-bold text-3xl'>Blog Uploadd</h1>
+            <h1 className='font-bold text-3xl'>Blog Upload</h1>
             <div className="w-2/5">
             <label htmlFor="category" className="w-2/5">Category: </label>
                     <select

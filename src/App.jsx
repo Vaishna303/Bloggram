@@ -24,10 +24,19 @@ const App = () => {
     <BrowserRouter>
      <UserContext.Provider value={{ user, setUser }}> {/* Providing user and setUser via context */}
       <Navbar />
+      {/* <div>
+      {user && (
+      <p>USer : {user.username} I am </p>
+      )}
+      {!user && (
+        <p>No user</p>
+      )
+      }
+      </div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blog/:author/:createdAt" element={<BlogDetails />} />
+        <Route path="/blog/:author/:createdAt" element={<BlogDetails setuser={user} />} />
         <Route path="/profile/addBlog/:author" element={<Add />} />
         <Route path="/signup" element={<SignUp />} />
         
