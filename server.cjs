@@ -374,6 +374,25 @@ app.get('/api/getUserBlogs/:emailId', async (req, res) => {
   }
 });
 
+//Update User Details
+app.put('/api/updateUserDetails/:emailId', async (req, res) => {
+  try {
+    const { email } = req.params;
+    const { username, mail, phone, password, question, answer } = req.body;
+
+    // Find the user by author (username) and update their details
+    const updatedUser = await NameModel.findOneAndUpdate({ mail: req.params.emailId }, { username, mail, phone, password, question, answer}, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+  console.log("SAVED");
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user details:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 app.get('/api/getUserDetails/:username', async (req, res) => {
   try {
     const { username } = req.params;
@@ -404,25 +423,7 @@ app.get('/api/getUserDetails', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-//Update User Details
-app.put('/api/updateUserDetails/:author', async (req, res) => {
-  try {
-    const { author } = req.params;
-    const { username, mail, phone, password, question, answer } = req.body;
 
-    // Find the user by author (username) and update their details
-    const updatedUser = await NameModel.findOneAndUpdate({ username: author }, { username, mail, phone, password, question, answer}, { new: true });
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-  console.log("SAVED");
-    res.json(updatedUser);
-  } catch (error) {
-    console.error('Error updating user details:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 //Like a blog
 app.post('/api/likeBlog/:author/:createdAt', async (req, res) => {
   try {

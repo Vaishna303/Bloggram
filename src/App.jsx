@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-     <UserContext.Provider value={{ user, setUser }}> {/* Providing user and setUser via context */}
+     <UserContext.Provider value={{ user, setUser }}>
       <Navbar />
       {/* <div>
       {user && (
@@ -36,7 +36,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blog/:author/:createdAt" element={<BlogDetails setuser={user} />} />
+        <Route path="/blog/:author/:createdAt" element={<BlogDetails setUser={user} />} />
         <Route path="/profile/addBlog/:author" element={<Add />} />
         <Route path="/signup" element={<SignUp />} />
         
@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/profile" element={<Prof user={user}/>} />
         <Route path="/profile/:author/:createdAt" element={<DisplayAblog />} />
         <Route path="/profile/EditBlog/:author/:createdAt" element={<EditBlogs />} />
-        <Route path="/profile/editProfile" element={<EditProfile setUser={setUser} />} />
+        <Route path="/profile/editProfile" element={<EditProfile setUser={user} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
