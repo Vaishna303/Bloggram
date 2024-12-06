@@ -12,7 +12,7 @@ const Forgotpwd = ()=>
     const [answer, setanswer] = useState('');
     const [finalanswer, setfinalanswer] = useState('');
     const [msg, setmsg] = useState('');
-
+const [usr, setusr] = useState();
     
     //const url = "http://localhost:3002";
     const url = "https://bloggram-2.onrender.com";
@@ -27,10 +27,10 @@ const Forgotpwd = ()=>
           }
         
             const response = await axios.get(`${url}/api/getUserDetails`, {params : {mail}});
-            
-            setUser(response.data);
+            setusr(response.data);
+            console.log("HELLO : ", usr);
             console.log('USR = '+response.data.username);
-          
+            
             setquestion(response.data.question);
             setfinalanswer(response.data.answer);
         }catch (error) {
@@ -43,8 +43,8 @@ const Forgotpwd = ()=>
     const submit = ()=>
     {
         if (answer==finalanswer) {
-            console.log("LOGG IN");
-          
+          setUser(usr);
+          console.log("LOGG IN");
             navigate('/profile');
             return null; 
         }
